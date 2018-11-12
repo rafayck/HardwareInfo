@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+	<title>Hardware Monitor</title>
+
+</head>
+<body>
+<h3 style="margin-top:-45px">CPU INFO</h3>
+<table>
+  <tr>
+    <th>Manufacturer</th>
+    <th>Brand</th>
+    <th>Speed</th>
+    <th>Speedmax</th>
+    <th>Cores</th>
+    <th>Vendor</th>
+  </tr>
+  <tr>
+    <td><%= cpuInfo.manufacturer %> </td>
+    <td><%= cpuInfo.brand %></td>
+    <td><%= cpuInfo.speed %></td>
+    <td><%= cpuInfo.speedmax %> </td>
+    <td> <%= cpuInfo.cores %></td>
+    <td><%= cpuInfo.vendor %> </td>
+
+  </tr>
+
+</table>
+
+<h3>Memory Info</h3>
+<table>
+  <tr>
+    <th>Total Memory (GBs)</th>
+    <th>Memory In use (GBs)</th>
+    <th>Available (GBs)</th>
+  </tr>
+  <tr>
+   <td><%= memInfo.total / (1024*1024*1024) %> </td>
+    <td><%= memInfo.used / (1024*1024*1024)%></td>
+    <td><%= memInfo.free / (1024*1024*1024) %></td>
+  
+
+  </tr>
+
+</table>
+
+<h3>System Info</h3>
+<table>
+  <tr>
+    <th>Uuid</th>
+    <th>Manufacturer</th>
+    <th>Model</th>
+  </tr>
+  <tr>
+   <td><%= systemInfo.uuid %> </td>
+    <td><%= systemInfo.manufacturer %></td>
+    <td><%= systemInfo.model %></td>
+  
+
+  </tr>
+
+</table>
+
+
+<h3>Disk Info</h3>
+<table>
+  <tr>
+    <th>Disk Size (GBs)</th>
+  </tr>
+
+ 
+  <% diskInfo.map((disk,index)=>{ %>
+
+  <tr>
+   <td><%= diskInfo[index].size/(1024*1024*1024) %> </td>
+  </tr>
+
+
+<% }) %> 
+</table>
+
+<h3>Network Info</h3>
+<table>
+  <tr>
+    <th>Network Info</th>
+  </tr>
+  <% networkInfo.map((network,index)=>{ %>
+
+  <tr>
+   <td><%= networkInfo[index].ip4 %> </td>
+  </tr>
+
+
+<% }) %> 
+
+</table>
+<p>Logged In At</p>
+<%= login_time %>
+
+</body>
+</html>

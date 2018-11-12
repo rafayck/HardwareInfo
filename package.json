@@ -1,0 +1,31 @@
+{
+  "name": "hardware",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node build.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "^2.6.1",
+    "ejs-electron": "^2.0.3",
+    "electron-log": "^2.2.17",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "moment": "^2.22.2",
+    "mongoose": "^5.3.7",
+    "morgan": "~1.9.0",
+    "node-cron": "^2.0.3",
+    "nodemon": "^1.18.5",
+    "remote-exec": "0.0.3",
+    "systeminformation": "^3.45.9",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "electron": "^3.0.8",
+    "electron-packager": "^12.2.0"
+  }
+}
