@@ -8,7 +8,7 @@ let mainWindow;
 function createWindow() {
 
   let autoLaunch = new AutoLaunch({
-    name: 'electron-with-express',
+    name: 'Hardware-Client',
     path: app.getPath('exe'),
   });
   autoLaunch.isEnabled().then((isEnabled) => {
