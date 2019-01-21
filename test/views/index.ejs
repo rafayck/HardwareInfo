@@ -14,7 +14,7 @@
   <form method="POST" action="/">
     <label>Lab Name</label>
     <input type="text" name="lab_name" class="form-control">
-    <input type="Submit" value="submit" class="btn btn-sucess">  
+    <input type="Submit" value="submit" class="btn btn-sucess submit-btn">  
   </form>
 
 <h3>CPU INFO</h3>
@@ -108,6 +108,11 @@
 
 <p>Logged In At</p>
 <%= login_time %>
+<script>
+setTimeout(function(){
+   window.location.reload(1);
+}, 5000);
+</script>
 </body>
 
 </html>

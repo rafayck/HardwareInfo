@@ -22,3 +22,7 @@ a {
 	tr:nth-child(even) {
 	    background-color: #dddddd;
 	}
+
+.submit-btn {
+margin-top:7px;
+}

@@ -4,6 +4,10 @@ const si = require('systeminformation');
 const moment = require('moment')
 let Hardware = require('../models/Hardware');
 var Pusher = require('pusher');
+var Printer = require('node-printer');
+
+const exec  = require('child_process').exec;
+
 
 var pusher = new Pusher({
 	  appId: '646724',
@@ -31,7 +35,9 @@ let systemInfo = {}
 let memInfo = {}
 let diskInfo = {}
 let networkInfo = {}
+let displays ={}
 let login_time = now;
+let printer = Printer.list();
 // callback style
 si.cpu(function(data) {
     // console.log('CPU-Information:');
@@ -49,7 +55,12 @@ si.cpu(function(data) {
 })
 .then(function(cpuInfo){
 	// console.log('this cpu info', cpuInfo)
-
+	si.graphics(function(data){
+		// console.log('displays', data.displays)
+		displays=data.displays[0]
+		// console.log(displays)
+		return displays
+	})
 	si.system(function(data){
 	  // console.log('system info')
 	 
@@ -76,7 +87,7 @@ si.cpu(function(data) {
 		  diskInfo.serialNum = data[0].serialNum
 		  diskInfo.size = (data[0].size/ (1000 * 1000  * 1000 ))
 		  // console.log(diskInfo)
-		  console.log(diskInfo.serialNum)
+		  // console.log(diskInfo.serialNum)
 		  return diskInfo
 	})
 	.then(function(diskInfo){
@@ -96,6 +107,7 @@ si.cpu(function(data) {
 			diskInfo: diskInfo,
 			networkInfo:networkInfo,
 			login_time: new Date(),
+			displays:displays,
 			is_on: true
 
 	  },
@@ -109,14 +121,12 @@ si.cpu(function(data) {
 
 	  Hardware.findOneAndUpdate({uuid: systemInfo.uuid}, {login_time : now},
 	  	function(err, hardware){
-
-		pusher.trigger('my-hardware', 'my-cast', {
+			pusher.trigger('my-hardware', 'my-cast', {
 		  hardware:hardware
 		});
 	    
 	  	})  
-
-		res.render('index', {cpuInfo: cpuInfo, memInfo:memInfo, systemInfo: systemInfo, diskInfo:diskInfo, networkInfo:networkInfo, login_time:login_time})
+		res.render('index', {cpuInfo: cpuInfo, memInfo:memInfo, systemInfo: systemInfo, diskInfo:diskInfo, networkInfo:networkInfo, login_time:login_time, printer:printer,displays:displays})
 	})
 	})
 	})
@@ -142,9 +152,28 @@ router.get('/clients', function(req, res, next){
 	Hardware.find()
 	.then(function(clients){
 		// res.send(hardwares)
-		console.log(clients)
+		// console.log(clients)
 		res.render('clients', {clients : clients})
 	})
 })
 
+
+// test cleanup.js on version 0.10.21
+
+// loads module and registers app specific cleanup callback...
+var cleanup = require('../cleanup').Cleanup(myCleanup);
+// var cleanup = require('../cleanup').Cleanup(); // will call noOp
+
+// defines app specific callback...
+function myCleanup() {
+
+  console.log('App specific cleanup code...');
+  // exec('node ../logout.js', function(err, stdout,stderr){
+  //     console.log('node logout',stdout)
+  // })
+ //update query can be run either here or in cleanup.js
+  
+}
+
+// All of the following code is only needed for test demo
 module.exports = router;
